@@ -10,14 +10,13 @@ const NavBar = () => {
             <Nav className="mr-auto">
               <Nav.Link as={Link} to="/">
                 Home
-              </Nav.Link>
+              </Nav.Link>{" "}
               <Nav.Link as={Link} to="/vehiclemake">
                 VehicleMake
-              </Nav.Link>
+              </Nav.Link>{" "}
               <Nav.Link as={Link} to="/vehiclemodel">
                 VehicleModel
-              </Nav.Link>
-
+              </Nav.Link>{" "}
               <Nav.Link as={Link} to="/vehiclemake/create">
                 Create
               </Nav.Link>

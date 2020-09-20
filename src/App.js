@@ -2,7 +2,6 @@ import React from "react";
 import { Provider } from "mobx-react";
 import { Route } from "react-router-dom";
 import VehicleMakeStore from "./stores/VehicleMakeStore";
-import "./App.css";
 import VehicleMake from "./pages/VehicleMake";
 import VehicleModel from "./pages/VehicleModel";
 import Home from "./pages/Home";

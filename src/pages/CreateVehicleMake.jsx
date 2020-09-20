@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+
 @inject("VehicleMakeStore")
 @observer
 class CreateVehicleMake extends Component {
@@ -14,8 +15,8 @@ class CreateVehicleMake extends Component {
 
   async onFormSubmit(e) {
     e.preventDefault();
-    console.log("Submitted form!!!!!!!!");
     await this.props.VehicleMakeStore.createVehicleMake(this.state);
+
     if (this.props.VehicleMakeStore.isVehicleCreated) {
       //redirect
       this.props.history.push("/vehiclemake");
@@ -46,7 +47,7 @@ class CreateVehicleMake extends Component {
               value={this.state.abrv}
               onChange={(e) => this.onChangeHandler(e)}
               type="text"
-              placeholder="Name"
+              placeholder="Abrv"
             />
           </label>
           <button type="submit">Submit</button>

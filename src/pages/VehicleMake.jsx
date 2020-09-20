@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-
+import Pagination from "../components/VehicleMakePagination";
+import VehicleMakeFiltering from "../components/VehicleMakeFiltering";
+import VehicleMakeSorting from "../components/VehicleMakeSorting";
 @inject("VehicleMakeStore")
 @observer
 class VehicleMake extends Component {
@@ -15,10 +17,12 @@ class VehicleMake extends Component {
     }
     return (
       <div>
-        <table cellSpacing="4" cellPadding="6">
+        <VehicleMakeFiltering />
+        <VehicleMakeSorting />
+        <table cellSpacing="4" cellPadding="2">
           <thead>
             <tr>
-              <th style={{ float: "left" }}>Name</th>
+              <th>Name</th>
               <th>Abbreviation</th>
               <th>VehicleMakeId</th>
               <th></th>
@@ -30,7 +34,6 @@ class VehicleMake extends Component {
                 <td>{vehicle.Name}</td>
                 <td>{vehicle.Abbreviation}</td>
                 <td>{vehicle.VehicleMakeId}</td>
-
                 <td
                   onClick={() =>
                     this.props.history.push(
@@ -40,7 +43,6 @@ class VehicleMake extends Component {
                 >
                   Edit
                 </td>
-
                 <td
                   onClick={() =>
                     this.props.history.push(
@@ -54,6 +56,7 @@ class VehicleMake extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination />
       </div>
     );
   }

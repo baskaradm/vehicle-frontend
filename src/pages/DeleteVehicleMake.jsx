@@ -11,7 +11,6 @@ class DeleteVehicleMake extends Component {
       this.props.match.params.id
     );
     if (this.props.VehicleMakeStore.isDeleted) {
-      //redirect
       this.props.history.push("/vehiclemake");
     }
   }

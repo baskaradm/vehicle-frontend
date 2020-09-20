@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+
 @inject("VehicleMakeStore")
 @observer
 class EditVehicleMake extends Component {
@@ -7,6 +8,7 @@ class EditVehicleMake extends Component {
     name: "",
     abrv: "",
   };
+
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.VehicleMakeStore.getVehicleMakeById(id);
@@ -18,7 +20,6 @@ class EditVehicleMake extends Component {
 
   async onFormSubmit(e) {
     e.preventDefault();
-    console.log("Submitted form!!!!!!!!");
 
     await this.props.VehicleMakeStore.editVehicleMake(
       this.state,
@@ -26,7 +27,6 @@ class EditVehicleMake extends Component {
     );
 
     if (this.props.VehicleMakeStore.isVehicleUpdated) {
-      //redirect
       this.props.history.push("/vehiclemake");
     }
   }
@@ -56,7 +56,7 @@ class EditVehicleMake extends Component {
               value={this.state.abrv}
               onChange={(e) => this.onChangeHandler(e)}
               type="text"
-              placeholder="Name"
+              placeholder="Abrv"
             />
           </label>
           <button type="submit">Submit</button>
