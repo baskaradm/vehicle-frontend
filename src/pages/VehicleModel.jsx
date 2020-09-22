@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+import Pagination from "../components/VehicleModelPagination";
+import VehicleModelFiltering from "../components/VehicleModelFiltering";
+import VehicleModelSorting from "../components/VehicleModelSorting";
 
 @inject("VehicleModelStore")
 @observer
@@ -16,6 +19,8 @@ class VehicleModel extends Component {
     }
     return (
       <div>
+        <VehicleModelFiltering />
+        <VehicleModelSorting />
         <table cellSpacing="4" cellPadding="2">
           <thead>
             <tr>
@@ -54,6 +59,7 @@ class VehicleModel extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination />
       </div>
     );
   }

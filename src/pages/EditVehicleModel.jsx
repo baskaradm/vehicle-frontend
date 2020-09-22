@@ -7,7 +7,7 @@ class EditVehicleModel extends Component {
   state = {
     name: "",
     abrv: "",
-    vehicleMakeId: "",
+    vehiclemakeid: "",
   };
 
   componentDidMount() {
@@ -64,7 +64,7 @@ class EditVehicleModel extends Component {
             Vehicle Make Id:
             <input
               name="vehiclemakeid"
-              value={this.state.vehicleMakeId}
+              value={this.state.vehiclemakeid}
               onChange={(e) => this.onChangeHandler(e)}
               type="text"
               placeholder="VehicleMakeId"

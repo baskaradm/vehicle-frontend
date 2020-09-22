@@ -12,12 +12,17 @@ class VehicleModelStore {
   @observable isVehicleUpdated = false;
   @observable vehicleError = null;
   @observable isDeleted = false;
-
+  @observable pagingInfo = {
+    resultsPerPage: 0,
+    totalCount: 0,
+    pageNumber: 1,
+  };
   @observable vehicle = {
     VehicleMakeId: "",
     Name: "",
     Abbreviation: "",
   };
+
   @action async getVehicleModels() {
     try {
       this.loadingVehicles = true;
@@ -25,11 +30,16 @@ class VehicleModelStore {
         params: {
           sortBy: this.sortBy,
           searchString: this.searchString,
-          page: this.page,
+          page: this.pagingInfo.pageNumber,
         },
       });
 
       this.vehicleModels = results.data.vehicles;
+      this.pagingInfo = {
+        resultsPerPage: results.data.pagingInfo.resultsPerPage,
+        totalCount: results.data.pagingInfo.totalCount,
+        pageNumber: results.data.pagingInfo.pageNumber,
+      };
       this.loadingVehicles = false;
     } catch (error) {
       this.loadingVehicles = false;
@@ -54,7 +64,7 @@ class VehicleModelStore {
       this.loading = true;
 
       await axios.post("/api/vehiclemodel", {
-        vehiclemakeid: vehicleModel.VehicleMakeId,
+        vehiclemakeid: vehicleModel.vehiclemakeid,
         name: vehicleModel.name,
         abbreviation: vehicleModel.abrv,
       });
@@ -72,7 +82,7 @@ class VehicleModelStore {
       await axios.put(`/api/vehiclemodel/${id}`, {
         id: id,
 
-        VehicleMakeId: this.vehicle.VehicleMakeId,
+        vehiclemakeid: vehicleModel.vehiclemakeid,
         Name: vehicleModel.name,
         Abbreviation: vehicleModel.abrv,
       });
@@ -97,6 +107,10 @@ class VehicleModelStore {
       this.loading = false;
       this.vehicleError = error;
     }
+  }
+
+  @action updatePageNumber(page) {
+    this.pagingInfo.pageNumber = page;
   }
 }
 

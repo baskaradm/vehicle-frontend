@@ -52,7 +52,7 @@ class CreateVehicleModel extends Component {
             />
           </label>
           <label>
-            Vehicle abrv:
+            Vehicle id:
             <input
               name="vehiclemakeid"
               value={this.state.vehiclemakeid}
