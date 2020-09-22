@@ -17,7 +17,7 @@ class VehicleMakeStore {
     pageNumber: 1,
   };
 
-  @observable vehicle = { vehicleMakeid: null, Name: "", Abbreviation: "" };
+  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" };
 
   @action async getVehicleMakes() {
     try {

@@ -10,8 +10,6 @@ class VehicleMakeSorting extends Component {
     this.props.VehicleMakeStore.getVehicleMakes();
   }
   render() {
-    const vehicleStore = this.props.VehicleMakeStore;
-
     return (
       <div>
         Sort by:{" "}

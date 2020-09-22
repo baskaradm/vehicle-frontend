@@ -18,7 +18,10 @@ const NavBar = () => {
                 VehicleModel
               </Nav.Link>{" "}
               <Nav.Link as={Link} to="/vehiclemake/create">
-                Create
+                CreateVehicleMake
+              </Nav.Link>{" "}
+              <Nav.Link as={Link} to="/vehiclemodel/create">
+                CreateVehicleModel
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

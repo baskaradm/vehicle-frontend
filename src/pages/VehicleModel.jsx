@@ -1,7 +1,62 @@
-import React from "react";
+import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
 
-const VehicleModel = () => {
-  return <h1>Vehicle Models</h1>;
-};
+@inject("VehicleModelStore")
+@observer
+class VehicleModel extends Component {
+  componentDidMount() {
+    this.props.VehicleModelStore.getVehicleModels();
+  }
+
+  render() {
+    const vehicleStore = this.props.VehicleModelStore;
+
+    if (vehicleStore.loadingVehicles) {
+      return <h2>Loading data....</h2>;
+    }
+    return (
+      <div>
+        <table cellSpacing="4" cellPadding="2">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Abbreviation</th>
+              <th>VehicleMakeId</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {vehicleStore.vehicleModels.map((vehicle) => (
+              <tr key={vehicle.ID}>
+                <td>{vehicle.ID}</td>
+                <td>{vehicle.Name}</td>
+
+                <td>{vehicle.Abbreviation}</td>
+                <td>{vehicle.VehicleMakeId}</td>
+                <td
+                  onClick={() =>
+                    this.props.history.push(`/vehiclemodel/edit/${vehicle.ID}`)
+                  }
+                >
+                  Edit
+                </td>
+                <td
+                  onClick={() =>
+                    this.props.history.push(
+                      `/vehiclemodel/delete/${vehicle.ID}`
+                    )
+                  }
+                >
+                  Delete
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
 
 export default VehicleModel;
