@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "mobx-react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import VehicleMakeStore from "./stores/VehicleMakeStore";
 import VehicleModelStore from "./stores/VehicleModelStore";
 import VehicleMake from "./pages/VehicleMake";
@@ -22,22 +22,17 @@ function App() {
         VehicleMakeStore={VehicleMakeStore}
         VehicleModelStore={VehicleModelStore}
       >
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/vehiclemake" exact component={VehicleMake} />
-          <Route path="/vehiclemodel" exact component={VehicleModel} />
-          <Route path="/vehiclemake/create" component={CreateVehicleMake} />
-          <Route path="/vehiclemake/edit/:id" component={EditVehicleMake} />
+        <Route exact path="/" component={Home} />
+        <Route path="/vehiclemake" exact component={VehicleMake} />
+        <Route path="/vehiclemodel" exact component={VehicleModel} />
+        <Route path="/vehiclemake/create" component={CreateVehicleMake} />
+        <Route path="/vehiclemake/edit/:id" component={EditVehicleMake} />
 
-          <Route path="/vehiclemake/delete/:id" component={DeleteVehicleMake} />
-          <Route path="/vehiclemodel/create" component={CreateVehicleModel} />
-          <Route path="/vehiclemodel/edit/:id" component={EditVehicleModel} />
+        <Route path="/vehiclemake/delete/:id" component={DeleteVehicleMake} />
+        <Route path="/vehiclemodel/create" component={CreateVehicleModel} />
+        <Route path="/vehiclemodel/edit/:id" component={EditVehicleModel} />
 
-          <Route
-            path="/vehiclemodel/delete/:id"
-            component={DeleteVehicleModel}
-          />
-        </Switch>
+        <Route path="/vehiclemodel/delete/:id" component={DeleteVehicleModel} />
       </Provider>
     </React.Fragment>
   );
