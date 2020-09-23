@@ -3,6 +3,8 @@ import { inject, observer } from "mobx-react";
 import Pagination from "../components/VehicleModelPagination";
 import VehicleModelFiltering from "../components/VehicleModelFiltering";
 import VehicleModelSorting from "../components/VehicleModelSorting";
+import { Link } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 @inject("VehicleModelStore")
 @observer
@@ -19,8 +21,13 @@ class VehicleModel extends Component {
     }
     return (
       <div>
+        <Nav.Link as={Link} to="/vehiclemodel/create">
+          CreateVehicleModel
+        </Nav.Link>
+
         <VehicleModelFiltering />
         <VehicleModelSorting />
+
         <table cellSpacing="4" cellPadding="2">
           <thead>
             <tr>

@@ -3,6 +3,9 @@ import { inject, observer } from "mobx-react";
 import Pagination from "../components/VehicleMakePagination";
 import VehicleMakeFiltering from "../components/VehicleMakeFiltering";
 import VehicleMakeSorting from "../components/VehicleMakeSorting";
+import { Link } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+
 @inject("VehicleMakeStore")
 @observer
 class VehicleMake extends Component {
@@ -17,6 +20,10 @@ class VehicleMake extends Component {
     }
     return (
       <div>
+        <Nav.Link as={Link} to="/vehiclemake/create">
+          CreateVehicleMake
+        </Nav.Link>
+
         <VehicleMakeFiltering />
         <VehicleMakeSorting />
         <table cellSpacing="4" cellPadding="2">
