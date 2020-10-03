@@ -1,38 +1,30 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-@inject("VehicleModelStore")
+@inject("EditVehicleModelViewStore")
 @observer
 class EditVehicleModel extends Component {
-  state = {
-    name: "",
-    abrv: "",
-    vehiclemakeid: "",
-  };
+
 
   componentDidMount() {
     const id = this.props.match.params.id;
-    this.props.VehicleModelStore.getVehicleModelById(id);
-  }
-
-  onChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.props.EditVehicleModelViewStore.getVehicleModelById(id);
   }
 
   async onFormSubmit(e) {
     e.preventDefault();
 
-    await this.props.VehicleModelStore.editVehicleModel(
-      this.state,
+    await this.props.EditVehicleModelViewStore.editVehicleModel(
+      this.props.EditVehicleModelViewStore.vehicleModel,
       this.props.match.params.id
     );
 
-    if (this.props.VehicleModelStore.isVehicleUpdated) {
+    if (this.props.EditVehicleModelViewStore.isVehicleUpdated) {
       this.props.history.push("/vehiclemodel");
     }
   }
   render() {
-    const vehicleStore = this.props.VehicleModelStore;
+    const vehicleStore = this.props.EditVehicleModelViewStore;
 
     return (
       <div>
@@ -44,8 +36,8 @@ class EditVehicleModel extends Component {
             Vehicle name:
             <input
               name="name"
-              value={this.state.name}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.name}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Name"
             />
@@ -54,8 +46,8 @@ class EditVehicleModel extends Component {
             Vehicle abrv:
             <input
               name="abrv"
-              value={this.state.abrv}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.abrv}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Abrv"
             />
@@ -64,8 +56,8 @@ class EditVehicleModel extends Component {
             Vehicle Make Id:
             <input
               name="vehiclemakeid"
-              value={this.state.vehiclemakeid}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.vehiclemakeid}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="VehicleMakeId"
             />

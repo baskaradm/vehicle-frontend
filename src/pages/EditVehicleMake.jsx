@@ -1,37 +1,30 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-@inject("VehicleMakeStore")
+@inject("EditVehicleMakeViewStore")
 @observer
 class EditVehicleMake extends Component {
-  state = {
-    name: "",
-    abrv: "",
-  };
+
 
   componentDidMount() {
     const id = this.props.match.params.id;
-    this.props.VehicleMakeStore.getVehicleMakeById(id);
-  }
-
-  onChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.props.EditVehicleMakeViewStore.getVehicleMakeById(id);
   }
 
   async onFormSubmit(e) {
     e.preventDefault();
 
-    await this.props.VehicleMakeStore.editVehicleMake(
-      this.state,
+    await this.props.EditVehicleMakeViewStore.editVehicleMake(
+      this.props.EditVehicleMakeViewStore.vehicleMake,
       this.props.match.params.id
     );
 
-    if (this.props.VehicleMakeStore.isVehicleUpdated) {
+    if (this.props.EditVehicleMakeViewStore.isVehicleUpdated) {
       this.props.history.push("/vehiclemake");
     }
   }
   render() {
-    const vehicleStore = this.props.VehicleMakeStore;
+    const vehicleStore = this.props.EditVehicleMakeViewStore;
 
     return (
       <div>
@@ -43,8 +36,8 @@ class EditVehicleMake extends Component {
             Vehicle name:
             <input
               name="name"
-              value={this.state.name}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.name}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Name"
             />
@@ -53,8 +46,8 @@ class EditVehicleMake extends Component {
             Vehicle abrv:
             <input
               name="abrv"
-              value={this.state.abrv}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.abrv}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Abrv"
             />

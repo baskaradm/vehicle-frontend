@@ -1,31 +1,22 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-@inject("VehicleModelStore")
+@inject("CreateVehicleModelViewStore")
 @observer
 class CreateVehicleModel extends Component {
-  state = {
-    name: "",
-    abrv: "",
-    vehiclemakeid: "",
-  };
-
-  onChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
 
   async onFormSubmit(e) {
     e.preventDefault();
-    await this.props.VehicleModelStore.createVehicleModel(this.state);
+    await this.props.CreateVehicleModelViewStore.createVehicleModel(this.props.CreateVehicleModelViewStore.vehicleModel);
 
-    if (this.props.VehicleModelStore.isVehicleCreated) {
+    if (this.props.CreateVehicleModelViewStore.isVehicleCreated) {
       //redirect
       this.props.history.push("/vehiclemodel");
     }
   }
 
   render() {
-    const vehicleStore = this.props.VehicleModelStore;
+    const vehicleStore = this.props.CreateVehicleModelViewStore;
 
     return (
       <div>
@@ -35,8 +26,8 @@ class CreateVehicleModel extends Component {
             Vehicle name:
             <input
               name="name"
-              value={this.state.name}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.name}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Name"
             />
@@ -45,8 +36,8 @@ class CreateVehicleModel extends Component {
             Vehicle abrv:
             <input
               name="abrv"
-              value={this.state.abrv}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.abrv}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="Abrv"
             />
@@ -55,8 +46,8 @@ class CreateVehicleModel extends Component {
             Vehicle id:
             <input
               name="vehiclemakeid"
-              value={this.state.vehiclemakeid}
-              onChange={(e) => this.onChangeHandler(e)}
+              value={vehicleStore.vehiclemakeid}
+              onChange={(e) => vehicleStore.onChangeHandler(e)}
               type="text"
               placeholder="VehicleMakeId"
             />

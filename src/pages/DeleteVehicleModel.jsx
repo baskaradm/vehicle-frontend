@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
+@inject("DeleteVehicleModelViewStore")
+@observer
 class DeleteVehicleModel extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
-    this.props.VehicleModelStore.getVehicleModelById(id);
+    this.props.DeleteVehicleModelViewStore.getVehicleModelById(id);
   }
   async onDelete() {
-    await this.props.VehicleModelStore.deleteVehicleModel(
+    await this.props.DeleteVehicleModelViewStore.deleteVehicleModel(
       this.props.match.params.id
     );
-    if (this.props.VehicleModelStore.isDeleted) {
+    if (this.props.DeleteVehicleModelViewStore.isDeleted) {
       this.props.history.push("/vehiclemodel");
     }
   }
   render() {
-    const vehicleStore = this.props.VehicleModelStore;
+    const vehicleStore = this.props.DeleteVehicleModelViewStore;
 
     return (
       <React.Fragment>
@@ -28,4 +30,4 @@ class DeleteVehicleModel extends Component {
   }
 }
 
-export default inject("VehicleModelStore")(observer(DeleteVehicleModel));
+export default DeleteVehicleModel;

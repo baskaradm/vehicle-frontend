@@ -23,8 +23,8 @@ class VehicleModelStore {
   @observable loading = false;
   @observable loadingVehicles = false;
 
-  @observable isVehicleCreated = false;
-  @observable isVehicleUpdated = false;
+
+
   @observable vehicleError = null;
   @observable isDeleted = false;
 
@@ -68,43 +68,8 @@ class VehicleModelStore {
     }
   }
 
-  @action async createVehicleModel(vehicleModel) {
-    try {
-      this.loading = true;
 
-      const model = {
-        name: vehicleModel.name,
-        abrv: vehicleModel.abrv,
-        vehiclemakeid: vehicleModel.vehiclemakeid,
-      };
-      await vehicleModelService.createVehicleModel(model);
 
-      this.isVehicleCreated = true;
-      this.loading = false;
-    } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
-    }
-  }
-
-  @action async editVehicleModel(vehicleModel, id) {
-    try {
-      this.loading = true;
-
-      const vehicle = {
-        VehicleMakeId: this.vehicle.VehicleMakeId,
-        Name: vehicleModel.name,
-        Abbreviation: vehicleModel.abrv,
-      };
-      await vehicleModelService.editVehicleModel(id, vehicle);
-
-      this.isVehicleUpdated = true;
-      this.loading = false;
-    } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
-    }
-  }
 
   @action async deleteVehicleModel(id) {
     try {

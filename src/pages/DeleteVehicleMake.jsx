@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
+@inject("DeleteVehicleMakeViewStore")
+@observer
 class DeleteVehicleMake extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
-    this.props.VehicleMakeStore.getVehicleMakeById(id);
+    this.props.DeleteVehicleMakeViewStore.getVehicleMakeById(id);
   }
   async onDelete() {
-    await this.props.VehicleMakeStore.deleteVehicleMake(
+    await this.props.DeleteVehicleMakeViewStore.deleteVehicleMake(
       this.props.match.params.id
     );
-    if (this.props.VehicleMakeStore.isDeleted) {
+    if (this.props.DeleteVehicleMakeViewStore.isDeleted) {
       this.props.history.push("/vehiclemake");
     }
   }
   render() {
-    const vehicleStore = this.props.VehicleMakeStore;
+    const vehicleStore = this.props.DeleteVehicleMakeViewStore;
 
     return (
       <React.Fragment>
@@ -28,4 +30,4 @@ class DeleteVehicleMake extends Component {
   }
 }
 
-export default inject("VehicleMakeStore")(observer(DeleteVehicleMake));
+export default DeleteVehicleMake;
