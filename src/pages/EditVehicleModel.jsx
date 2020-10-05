@@ -4,33 +4,22 @@ import { inject, observer } from "mobx-react";
 @inject("EditVehicleModelViewStore")
 @observer
 class EditVehicleModel extends Component {
-
-
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.EditVehicleModelViewStore.getVehicleModelById(id);
   }
-
   async onFormSubmit(e) {
     e.preventDefault();
-
     await this.props.EditVehicleModelViewStore.editVehicleModel(
-      this.props.EditVehicleModelViewStore.vehicleModel,
-      this.props.match.params.id
+      this.props.match.params.id, this.props.history
     );
-
-    if (this.props.EditVehicleModelViewStore.isVehicleUpdated) {
-      this.props.history.push("/vehiclemodel");
-    }
   }
   render() {
     const vehicleStore = this.props.EditVehicleModelViewStore;
-
     return (
       <div>
         <br />
         <h4>Edit Vehicle Model:</h4>
-
         <form onSubmit={(e) => this.onFormSubmit(e)}>
           <label>
             Vehicle name:

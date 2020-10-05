@@ -8,22 +8,14 @@ class DeleteVehicleMake extends Component {
     const id = this.props.match.params.id;
     this.props.DeleteVehicleMakeViewStore.getVehicleMakeById(id);
   }
-  async onDelete() {
-    await this.props.DeleteVehicleMakeViewStore.deleteVehicleMake(
-      this.props.match.params.id
-    );
-    if (this.props.DeleteVehicleMakeViewStore.isDeleted) {
-      this.props.history.push("/vehiclemake");
-    }
-  }
   render() {
     const vehicleStore = this.props.DeleteVehicleMakeViewStore;
-
     return (
       <React.Fragment>
         <h1>Click button to delete</h1>
-
-        <button onClick={() => this.onDelete()}>Delete</button>
+        <button onClick={() => this.props.DeleteVehicleMakeViewStore.deleteVehicleMake(
+          this.props.match.params.id, this.props.history
+        )}>Delete</button>
         {vehicleStore.loading && <h2>Vehicle is deleting...</h2>}
       </React.Fragment>
     );

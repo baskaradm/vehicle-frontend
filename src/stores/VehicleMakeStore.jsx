@@ -1,8 +1,7 @@
-import { observable, action } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
 class VehicleMakeStore {
-  @observable loading = false;
   @observable loadingVehicles = false;
   @observable vehicleError = null;
   @observable vehicleMakes = [];
@@ -22,16 +21,21 @@ class VehicleMakeStore {
         this.searchString,
         this.pagingInfo.pageNumber
       );
-      this.vehicleMakes = results.data.vehicles;
-      this.pagingInfo = {
-        resultsPerPage: results.data.pagingInfo.resultsPerPage,
-        totalCount: results.data.pagingInfo.totalCount,
-        pageNumber: results.data.pagingInfo.pageNumber,
-      };
-      this.loadingVehicles = false;
+      runInAction(() => {
+        this.vehicleMakes = results.data.vehicles;
+        this.pagingInfo = {
+          resultsPerPage: results.data.pagingInfo.resultsPerPage,
+          totalCount: results.data.pagingInfo.totalCount,
+          pageNumber: results.data.pagingInfo.pageNumber,
+        };
+        this.loadingVehicles = false;
+      });
     } catch (error) {
-      this.loadingVehicles = false;
-      this.vehicleError = "Unable to fetch the vehicles";
+      runInAction(() => {
+        this.loadingVehicles = false;
+        this.vehicleError = "Unable to fetch the vehicles";
+      });
+
     }
   }
 

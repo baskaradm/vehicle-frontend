@@ -4,28 +4,20 @@ import { inject, observer } from "mobx-react";
 @inject("EditVehicleMakeViewStore")
 @observer
 class EditVehicleMake extends Component {
-
-
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.EditVehicleMakeViewStore.getVehicleMakeById(id);
   }
-
   async onFormSubmit(e) {
     e.preventDefault();
-
     await this.props.EditVehicleMakeViewStore.editVehicleMake(
-      this.props.EditVehicleMakeViewStore.vehicleMake,
-      this.props.match.params.id
+      this.props.match.params.id,
+      this.props.history
     );
 
-    if (this.props.EditVehicleMakeViewStore.isVehicleUpdated) {
-      this.props.history.push("/vehiclemake");
-    }
   }
   render() {
     const vehicleStore = this.props.EditVehicleMakeViewStore;
-
     return (
       <div>
         <br />

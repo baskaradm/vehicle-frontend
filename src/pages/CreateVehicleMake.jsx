@@ -6,17 +6,11 @@ import { inject, observer } from "mobx-react";
 class CreateVehicleMake extends Component {
   async onFormSubmit(e) {
     e.preventDefault();
-    await this.props.CreateVehicleMakeViewStore.createVehicleMake(this.props.CreateVehicleMakeViewStore.vehicleMake);
-
-    if (this.props.CreateVehicleMakeViewStore.isVehicleCreated) {
-      //redirect
-      this.props.history.push("/vehiclemake");
-    }
-
+    await this.props.CreateVehicleMakeViewStore.createVehicleMake(this.props.history)
   }
+
   render() {
     const createVehicleMakeViewStore = this.props.CreateVehicleMakeViewStore;
-
     return (
       <div>
         <h2>Create</h2>
@@ -25,7 +19,7 @@ class CreateVehicleMake extends Component {
             Vehicle name:
             <input
               name="name"
-              value={createVehicleMakeViewStore.vehicleMake.name}
+              value={createVehicleMakeViewStore.vehicleMake.name || ''}
               onChange={(e) =>
                 createVehicleMakeViewStore.onChangeHandler(e)
               }
@@ -37,7 +31,7 @@ class CreateVehicleMake extends Component {
             Vehicle abrv:
             <input
               name="abrv"
-              value={createVehicleMakeViewStore.vehicleMake.abrv}
+              value={createVehicleMakeViewStore.vehicleMake.abrv || ''}
               onChange={(e) =>
                 createVehicleMakeViewStore.onChangeHandler(e)
               }

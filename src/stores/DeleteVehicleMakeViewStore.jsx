@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
 class DeleteVehicleMakeViewStore {
@@ -13,31 +13,35 @@ class DeleteVehicleMakeViewStore {
     try {
       this.loadingVehicles = true;
       const results = await vehicleMakeService.getVehicleMakeById(id);
-
-      this.vehicle = { ...results.data };
-      this.loadingVehicles = false;
+      runInAction(() => {
+        this.vehicle = { ...results.data };
+        this.loadingVehicles = false;
+      });
     } catch (error) {
-      this.loadingVehicles = false;
-      this.vehicleError = "Unable to fetch the vehicle";
+      runInAction(() => {
+        this.loadingVehicles = false;
+        this.vehicleError = "Unable to fetch the vehicle";
+      });
     }
   }
-
-
-
-  @action async deleteVehicleMake(id) {
+  @action async deleteVehicleMake(id, history) {
     try {
       this.loading = true;
-      await vehicleMakeService.deleteVehicleMake(id);
-
-      this.isDeleted = true;
-      this.loading = false;
+      const results = await vehicleMakeService.deleteVehicleMake(id);
+      runInAction(() => {
+        this.vehicle = { ...results.data };
+        this.isDeleted = true;
+        this.loading = false;
+        history.push("/vehiclemake")
+      });
     } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
+      runInAction(() => {
+        this.loading = false;
+        this.vehicleError = error;
+      });
+
     }
   }
-
-
 }
 
 const deleteVehicleMakeViewStore = new DeleteVehicleMakeViewStore();

@@ -1,21 +1,18 @@
-import { observable, action } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import { vehicleModelService } from "../common/services/VehicleModelService";
 
-
 class EditVehicleModelViewStore {
-
   @observable loading = false;
   @observable isVehicleUpdated = false;
   @observable vehicleError = null;
   @observable loadingVehicles = false;
-  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" }
 
+  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" }
   @observable vehicleModel = {
     name: "",
     abrv: "",
     vehiclemakeid: "",
   };
-
 
   onChangeHandler(e) {
     this.vehicleModel = { ...this.vehicleModel, [e.target.name]: e.target.value };
@@ -25,37 +22,41 @@ class EditVehicleModelViewStore {
     try {
       this.loadingVehicles = true;
       const results = await vehicleModelService.getVehicleModelById(id);
-
-      this.vehicle = { ...results.data };
-      this.loadingVehicles = false;
+      runInAction(() => {
+        this.vehicle = { ...results.data };
+        this.loadingVehicles = false;
+      });
     } catch (error) {
-      this.loadingVehicles = false;
-      this.vehicleError = "Unable to fetch the vehicle";
+      runInAction(() => {
+        this.loadingVehicles = false;
+        this.vehicleError = "Unable to fetch the vehicle";
+      });
+
     }
   }
-  @action async editVehicleModel(vehicleModel, id) {
+
+  @action async editVehicleModel(id, history) {
     try {
       this.loading = true;
       const vehicle = {
         VehicleMakeId: this.vehicle.VehicleMakeId,
-        Name: vehicleModel.name,
-        Abbreviation: vehicleModel.abrv,
-
-
+        Name: this.vehicleModel.name,
+        Abbreviation: this.vehicleModel.abrv,
       };
-      await vehicleModelService.editVehicleModel(id, vehicle);
-
-      this.isVehicleUpdated = true;
-      this.loading = false;
-
+      const results = await vehicleModelService.editVehicleModel(id, vehicle);
+      runInAction(() => {
+        this.vehicleModel = results.data;
+        this.isVehicleUpdated = true;
+        this.loading = false;
+        history.push("/vehiclemodel")
+      });
     } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
+      runInAction(() => {
+        this.loading = false;
+        this.vehicleError = error;
+      });
     }
   }
-
-
-
 }
 
 const editVehicleModelViewStore = new EditVehicleModelViewStore();

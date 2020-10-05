@@ -4,20 +4,13 @@ import { inject, observer } from "mobx-react";
 @inject("CreateVehicleModelViewStore")
 @observer
 class CreateVehicleModel extends Component {
-
   async onFormSubmit(e) {
     e.preventDefault();
-    await this.props.CreateVehicleModelViewStore.createVehicleModel(this.props.CreateVehicleModelViewStore.vehicleModel);
-
-    if (this.props.CreateVehicleModelViewStore.isVehicleCreated) {
-      //redirect
-      this.props.history.push("/vehiclemodel");
-    }
+    await this.props.CreateVehicleModelViewStore.createVehicleModel(this.props.history);
   }
 
   render() {
     const vehicleStore = this.props.CreateVehicleModelViewStore;
-
     return (
       <div>
         <h2>Create</h2>
@@ -54,7 +47,6 @@ class CreateVehicleModel extends Component {
           </label>
           <button type="submit">Submit</button>
         </form>
-
         {vehicleStore.loading && <h2>Vehicle is creating...</h2>}
       </div>
     );

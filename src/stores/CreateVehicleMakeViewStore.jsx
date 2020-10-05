@@ -1,11 +1,10 @@
-import { observable, action } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
 class CreateVehicleMakeViewStore {
   @observable loading = false;
   @observable isVehicleCreated = false;
   @observable vehicleError = null;
-
 
   @observable vehicleMake = {
     name: "",
@@ -15,17 +14,21 @@ class CreateVehicleMakeViewStore {
   @action onChangeHandler(e) {
     this.vehicleMake = { ...this.vehicleMake, [e.target.name]: e.target.value };
   }
-  @action async createVehicleMake(vehicleMake) {
+  @action async createVehicleMake(history) {
     try {
       this.loading = true;
-      const make = { name: vehicleMake.name, abrv: vehicleMake.abrv };
-      await vehicleMakeService.createVehicleMake(make);
-
-      this.isVehicleCreated = true;
-      this.loading = false;
+      const results = await vehicleMakeService.createVehicleMake(this.vehicleMake);
+      runInAction(() => {
+        this.vehicleMake = results.data;
+        this.isVehicleCreated = true;
+        this.loading = false;
+        history.push("/vehiclemake")
+      });
     } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
+      runInAction(() => {
+        this.loading = false;
+        this.vehicleError = error;
+      });
     }
   }
 }

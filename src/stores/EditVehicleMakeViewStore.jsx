@@ -1,9 +1,7 @@
-import { observable, action } from "mobx";
+import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
-
 class EditVehicleMakeViewStore {
-
   @observable loading = false;
   @observable isVehicleUpdated = false;
   @observable vehicleError = null;
@@ -15,7 +13,6 @@ class EditVehicleMakeViewStore {
     abrv: "",
   };
 
-
   onChangeHandler(e) {
     this.vehicleMake = { ...this.vehicleMake, [e.target.name]: e.target.value };
   }
@@ -24,36 +21,40 @@ class EditVehicleMakeViewStore {
     try {
       this.loadingVehicles = true;
       const results = await vehicleMakeService.getVehicleMakeById(id);
-
-      this.vehicle = { ...results.data };
-      this.loadingVehicles = false;
+      runInAction(() => {
+        this.vehicle = { ...results.data };
+        this.loadingVehicles = false;
+      });
     } catch (error) {
-      this.loadingVehicles = false;
-      this.vehicleError = "Unable to fetch the vehicle";
+      runInAction(() => {
+        this.loadingVehicles = false;
+        this.vehicleError = "Unable to fetch the vehicle";
+      });
     }
   }
-  @action async editVehicleMake(vehicleMake, id) {
+
+  @action async editVehicleMake(id, history) {
     try {
       this.loading = true;
       const vehicle = {
         VehicleMakeId: this.vehicle.VehicleMakeId,
-        Name: vehicleMake.name,
-        Abbreviation: vehicleMake.abrv,
-
+        Name: this.vehicleMake.name,
+        Abbreviation: this.vehicleMake.abrv,
       };
-      await vehicleMakeService.editVehicleMake(id, vehicle);
-
-      this.isVehicleUpdated = true;
-      this.loading = false;
-
+      const results = await vehicleMakeService.editVehicleMake(id, vehicle);
+      runInAction(() => {
+        this.vehicleMake = results.data;
+        this.isVehicleUpdated = true;
+        this.loading = false;
+        history.push("/vehiclemake")
+      });
     } catch (error) {
-      this.loading = false;
-      this.vehicleError = error;
+      runInAction(() => {
+        this.loading = false;
+        this.vehicleError = error;
+      });
     }
   }
-
-
-
 }
 
 const editVehicleMakeViewStore = new EditVehicleMakeViewStore();
