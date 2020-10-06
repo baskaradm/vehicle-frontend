@@ -22,10 +22,10 @@ class VehicleModelSorting extends Component {
         <Badge onClick={() => this.onSortingChange("abrv_desc")}>
           Abrv_Desc
         </Badge>{" "}
-        <Badge onClick={() => this.onSortingChange("VehicelMakeId")}>
+        <Badge onClick={() => this.onSortingChange("VehicleMakeId")}>
           VehicleMakeId
         </Badge>
-        <Badge onClick={() => this.onSortingChange("VehicleMakeId_desc")}>
+        <Badge onClick={() => this.onSortingChange("vehiclemakeid_desc")}>
           VehicleMakeId_Desc
         </Badge>
         <Badge onClick={() => this.onSortingChange("")}>Default</Badge>
