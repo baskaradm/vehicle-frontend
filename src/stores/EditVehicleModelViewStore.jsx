@@ -30,12 +30,14 @@ class EditVehicleModelViewStore {
       const results = await vehicleModelService.getVehicleModelById(id);
       runInAction(() => {
         this.vehicle = { ...results.data };
-        this.loadingVehicles = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicle";
+      });
+    } finally {
+      runInAction(() => {
+        this.loadingVehicles = false;
       });
     }
   }
@@ -52,13 +54,16 @@ class EditVehicleModelViewStore {
       runInAction(() => {
         this.vehicleModel = results.data;
         this.isVehicleUpdated = true;
-        this.loading = false;
+
         history.push("/vehiclemodel");
       });
     } catch (error) {
       runInAction(() => {
-        this.loading = false;
         this.vehicleError = error;
+      });
+    } finally {
+      runInAction(() => {
+        this.loading = false;
       });
     }
   }

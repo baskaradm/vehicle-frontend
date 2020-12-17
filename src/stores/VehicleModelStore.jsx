@@ -33,12 +33,14 @@ class VehicleModelStore {
           totalCount: results.data.pagingInfo.totalCount,
           pageNumber: results.data.pagingInfo.pageNumber,
         };
-        this.loadingVehicles = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicles";
+      });
+    } finally {
+      runInAction(() => {
+        this.loadingVehicles = false;
       });
     }
   }

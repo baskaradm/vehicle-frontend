@@ -18,12 +18,14 @@ class DeleteVehicleMakeViewStore {
       const results = await vehicleMakeService.getVehicleMakeById(id);
       runInAction(() => {
         this.vehicle = { ...results.data };
-        this.loadingVehicles = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicle";
+      });
+    } finally {
+      runInAction(() => {
+        this.loadingVehicles = false;
       });
     }
   }
@@ -34,13 +36,15 @@ class DeleteVehicleMakeViewStore {
       runInAction(() => {
         this.vehicle = { ...results.data };
         this.isDeleted = true;
-        this.loading = false;
         history.push("/vehiclemake");
       });
     } catch (error) {
       runInAction(() => {
-        this.loading = false;
         this.vehicleError = error;
+      });
+    } finally {
+      runInAction(() => {
+        this.loading = false;
       });
     }
   }

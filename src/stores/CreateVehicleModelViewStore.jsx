@@ -30,13 +30,16 @@ class CreateVehicleModelViewStore {
       runInAction(() => {
         this.vehicleModel = results.data;
         this.isVehicleCreated = true;
-        this.loading = false;
+
         history.push("/vehiclemodel");
       });
     } catch (error) {
       runInAction(() => {
-        this.loading = false;
         this.vehicleError = error;
+      });
+    } finally {
+      runInAction(() => {
+        this.loading = false;
       });
     }
   }

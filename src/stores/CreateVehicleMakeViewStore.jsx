@@ -26,13 +26,16 @@ class CreateVehicleMakeViewStore {
       runInAction(() => {
         this.vehicleMake = results.data;
         this.isVehicleCreated = true;
-        this.loading = false;
+
         history.push("/vehiclemake");
       });
     } catch (error) {
       runInAction(() => {
-        this.loading = false;
         this.vehicleError = error;
+      });
+    } finally {
+      runInAction(() => {
+        this.loading = false;
       });
     }
   }
