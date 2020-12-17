@@ -6,15 +6,15 @@ import VehicleMakeSorting from "../components/VehicleMakeSorting";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
-@inject("VehicleMakeStore")
+@inject("rootStore")
 @observer
 class VehicleMake extends Component {
   componentDidMount() {
-    this.props.VehicleMakeStore.getVehicleMakes();
+    this.props.rootStore.vehicleMakeStore.getVehicleMakes();
   }
 
   render() {
-    const vehicleStore = this.props.VehicleMakeStore;
+    const vehicleStore = this.props.rootStore.vehicleMakeStore;
     if (vehicleStore.loadingVehicles) {
       return <h2>Loading data....</h2>;
     }

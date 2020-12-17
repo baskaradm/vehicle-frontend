@@ -2,11 +2,14 @@ import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
 class EditVehicleMakeViewStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @observable loading = false;
   @observable isVehicleUpdated = false;
   @observable vehicleError = null;
   @observable loadingVehicles = false;
-  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" }
+  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" };
 
   @observable vehicleMake = {
     name: "",
@@ -46,7 +49,7 @@ class EditVehicleMakeViewStore {
         this.vehicleMake = results.data;
         this.isVehicleUpdated = true;
         this.loading = false;
-        history.push("/vehiclemake")
+        history.push("/vehiclemake");
       });
     } catch (error) {
       runInAction(() => {
@@ -57,5 +60,4 @@ class EditVehicleMakeViewStore {
   }
 }
 
-const editVehicleMakeViewStore = new EditVehicleMakeViewStore();
-export default editVehicleMakeViewStore;
+export default EditVehicleMakeViewStore;

@@ -6,15 +6,15 @@ import VehicleModelSorting from "../components/VehicleModelSorting";
 import { Link } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
-@inject("VehicleModelStore")
+@inject("rootStore")
 @observer
 class VehicleModel extends Component {
   componentDidMount() {
-    this.props.VehicleModelStore.getVehicleModels();
+    this.props.rootStore.vehicleModelStore.getVehicleModels();
   }
 
   render() {
-    const vehicleStore = this.props.VehicleModelStore;
+    const vehicleStore = this.props.rootStore.vehicleModelStore;
 
     if (vehicleStore.loadingVehicles) {
       return <h2>Loading data....</h2>;

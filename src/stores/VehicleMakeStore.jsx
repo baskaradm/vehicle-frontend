@@ -2,6 +2,9 @@ import { observable, action, runInAction } from "mobx";
 import { vehicleMakeService } from "../common/services/VehicleMakeService";
 
 class VehicleMakeStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @observable loadingVehicles = false;
   @observable vehicleError = null;
   @observable vehicleMakes = [];
@@ -28,14 +31,15 @@ class VehicleMakeStore {
           totalCount: results.data.pagingInfo.totalCount,
           pageNumber: results.data.pagingInfo.pageNumber,
         };
-        this.loadingVehicles = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicles";
       });
-
+    } finally {
+      runInAction(() => {
+        this.loadingVehicles = false;
+      });
     }
   }
 
@@ -44,5 +48,4 @@ class VehicleMakeStore {
   }
 }
 
-const vehicleStore = new VehicleMakeStore();
-export default vehicleStore;
+export default VehicleMakeStore;

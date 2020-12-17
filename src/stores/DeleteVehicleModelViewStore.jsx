@@ -2,11 +2,14 @@ import { observable, action, runInAction } from "mobx";
 import { vehicleModelService } from "../common/services/VehicleModelService";
 
 class DeleteVehicleModelViewStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @observable loading = false;
   @observable isDeleted = false;
   @observable vehicleError = null;
   @observable loadingVehicles = false;
-  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" }
+  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" };
 
   @action async getVehicleModelById(id) {
     try {
@@ -32,7 +35,7 @@ class DeleteVehicleModelViewStore {
         this.vehicle = { ...results.data };
         this.isDeleted = true;
         this.loading = false;
-        history.push("/vehiclemodel")
+        history.push("/vehiclemodel");
       });
     } catch (error) {
       runInAction(() => {
@@ -43,5 +46,4 @@ class DeleteVehicleModelViewStore {
   }
 }
 
-const deleteVehicleModelViewStore = new DeleteVehicleModelViewStore();
-export default deleteVehicleModelViewStore;
+export default DeleteVehicleModelViewStore;

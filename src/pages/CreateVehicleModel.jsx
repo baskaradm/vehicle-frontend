@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-@inject("CreateVehicleModelViewStore")
+@inject("rootStore")
 @observer
 class CreateVehicleModel extends Component {
   async onFormSubmit(e) {
     e.preventDefault();
-    await this.props.CreateVehicleModelViewStore.createVehicleModel(this.props.history);
+    await this.props.rootStore.createVehicleModelViewStore.createVehicleModel(
+      this.props.history
+    );
   }
 
   render() {
-    const vehicleStore = this.props.CreateVehicleModelViewStore;
+    const vehicleStore = this.props.rootStore.createVehicleModelViewStore;
     return (
       <div>
         <h2>Create</h2>

@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-@inject("EditVehicleMakeViewStore")
+@inject("rootStore")
 @observer
 class EditVehicleMake extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
-    this.props.EditVehicleMakeViewStore.getVehicleMakeById(id);
+    this.props.rootStore.editVehicleMakeViewStore.getVehicleMakeById(id);
   }
   async onFormSubmit(e) {
     e.preventDefault();
-    await this.props.EditVehicleMakeViewStore.editVehicleMake(
+    await this.props.rootStore.editVehicleMakeViewStore.editVehicleMake(
       this.props.match.params.id,
       this.props.history
     );
-
   }
   render() {
-    const vehicleStore = this.props.EditVehicleMakeViewStore;
+    const vehicleStore = this.props.rootStore.editVehicleMakeViewStore;
     return (
       <div>
         <br />

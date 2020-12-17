@@ -2,12 +2,15 @@ import { observable, action, runInAction } from "mobx";
 import { vehicleModelService } from "../common/services/VehicleModelService";
 
 class EditVehicleModelViewStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @observable loading = false;
   @observable isVehicleUpdated = false;
   @observable vehicleError = null;
   @observable loadingVehicles = false;
 
-  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" }
+  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" };
   @observable vehicleModel = {
     name: "",
     abrv: "",
@@ -15,7 +18,10 @@ class EditVehicleModelViewStore {
   };
 
   onChangeHandler(e) {
-    this.vehicleModel = { ...this.vehicleModel, [e.target.name]: e.target.value };
+    this.vehicleModel = {
+      ...this.vehicleModel,
+      [e.target.name]: e.target.value,
+    };
   }
 
   @action async getVehicleModelById(id) {
@@ -31,7 +37,6 @@ class EditVehicleModelViewStore {
         this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicle";
       });
-
     }
   }
 
@@ -48,7 +53,7 @@ class EditVehicleModelViewStore {
         this.vehicleModel = results.data;
         this.isVehicleUpdated = true;
         this.loading = false;
-        history.push("/vehiclemodel")
+        history.push("/vehiclemodel");
       });
     } catch (error) {
       runInAction(() => {
@@ -59,5 +64,4 @@ class EditVehicleModelViewStore {
   }
 }
 
-const editVehicleModelViewStore = new EditVehicleModelViewStore();
-export default editVehicleModelViewStore;
+export default EditVehicleModelViewStore;

@@ -2,6 +2,9 @@ import { observable, action, runInAction } from "mobx";
 import { vehicleModelService } from "../common/services/VehicleModelService";
 
 class VehicleModelStore {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
   @observable vehicleModels = [];
   @observable sortBy = "";
   @observable searchString = "";
@@ -36,7 +39,7 @@ class VehicleModelStore {
       runInAction(() => {
         this.loadingVehicles = false;
         this.vehicleError = "Unable to fetch the vehicles";
-      })
+      });
     }
   }
 
@@ -45,5 +48,4 @@ class VehicleModelStore {
   }
 }
 
-const vehicleStore = new VehicleModelStore();
-export default vehicleStore;
+export default VehicleModelStore;
