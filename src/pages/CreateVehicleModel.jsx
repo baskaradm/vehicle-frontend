@@ -1,55 +1,25 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+import CreateVehicleModelValidation from "../common/validation/CreateVehicleModelValidation";
+import VehicleModelForm from "../common/validation/VehicleModelForm";
 
 @inject("rootStore")
 @observer
 class CreateVehicleModel extends Component {
-  async onFormSubmit(e) {
-    e.preventDefault();
-    await this.props.rootStore.createVehicleModelViewStore.createVehicleModel(
-      this.props.history
-    );
-  }
-
   render() {
-    const vehicleStore = this.props.rootStore.createVehicleModelViewStore;
     return (
       <div>
-        <h2>Create</h2>
-        <form onSubmit={(e) => this.onFormSubmit(e)}>
-          <label>
-            Vehicle name:
-            <input
-              name="name"
-              value={vehicleStore.name}
-              onChange={(e) => vehicleStore.onChangeHandler(e)}
-              type="text"
-              placeholder="Name"
-            />
-          </label>
-          <label>
-            Vehicle abrv:
-            <input
-              name="abrv"
-              value={vehicleStore.abrv}
-              onChange={(e) => vehicleStore.onChangeHandler(e)}
-              type="text"
-              placeholder="Abrv"
-            />
-          </label>
-          <label>
-            Vehicle id:
-            <input
-              name="vehiclemakeid"
-              value={vehicleStore.vehiclemakeid}
-              onChange={(e) => vehicleStore.onChangeHandler(e)}
-              type="text"
-              placeholder="VehicleMakeId"
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        {vehicleStore.loading && <h2>Vehicle is creating...</h2>}
+        <VehicleModelForm
+          form={
+            new CreateVehicleModelValidation(
+              this.props.rootStore,
+              this.props.history
+            )
+          }
+        />
+        {this.props.rootStore.createVehicleModelViewStore.loading && (
+          <h2>Vehicle is creating...</h2>
+        )}
       </div>
     );
   }

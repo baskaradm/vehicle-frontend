@@ -21,12 +21,10 @@ class CreateVehicleModelViewStore {
       [e.target.name]: e.target.value,
     };
   }
-  @action async createVehicleModel(history) {
+  @action async createVehicleModel(formValues, history) {
     try {
       this.loading = true;
-      const results = await vehicleModelService.createVehicleModel(
-        this.vehicleModel
-      );
+      const results = await vehicleModelService.createVehicleModel(formValues);
       runInAction(() => {
         this.vehicleModel = results.data;
         this.isVehicleCreated = true;

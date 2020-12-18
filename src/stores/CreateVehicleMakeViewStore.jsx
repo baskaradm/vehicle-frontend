@@ -17,12 +17,10 @@ class CreateVehicleMakeViewStore {
   @action onChangeHandler(e) {
     this.vehicleMake = { ...this.vehicleMake, [e.target.name]: e.target.value };
   }
-  @action async createVehicleMake(history) {
+  @action async createVehicleMake(formValues, history) {
     try {
       this.loading = true;
-      const results = await vehicleMakeService.createVehicleMake(
-        this.vehicleMake
-      );
+      const results = await vehicleMakeService.createVehicleMake(formValues);
       runInAction(() => {
         this.vehicleMake = results.data;
         this.isVehicleCreated = true;
