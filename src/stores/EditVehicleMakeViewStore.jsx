@@ -38,15 +38,16 @@ class EditVehicleMakeViewStore {
     }
   }
 
-  @action async editVehicleMake(id, history) {
+  @action async editVehicleMake(formValues, history, id) {
     try {
       this.loading = true;
-      const vehicle = {
-        VehicleMakeId: this.vehicle.VehicleMakeId,
-        Name: this.vehicleMake.name,
-        Abbreviation: this.vehicleMake.abrv,
-      };
-      const results = await vehicleMakeService.editVehicleMake(id, vehicle);
+
+      const results = await vehicleMakeService.editVehicleMake(id, {
+        VehicleMakeId: id,
+        Name: formValues.name,
+        Abbreviation: formValues.abrv,
+      });
+
       runInAction(() => {
         this.vehicleMake = results.data;
         this.isVehicleUpdated = true;

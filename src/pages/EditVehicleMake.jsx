@@ -1,51 +1,32 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+import EditVehicleMakeValidation from "../common/validation/EditVehicleMakeValidation";
+import VehicleMakeForm from "../common/validation/VehicleMakeForm";
 
 @inject("rootStore")
 @observer
 class EditVehicleMake extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
+
     this.props.rootStore.editVehicleMakeViewStore.getVehicleMakeById(id);
   }
-  async onFormSubmit(e) {
-    e.preventDefault();
-    await this.props.rootStore.editVehicleMakeViewStore.editVehicleMake(
-      this.props.match.params.id,
-      this.props.history
-    );
-  }
+
   render() {
-    const vehicleStore = this.props.rootStore.editVehicleMakeViewStore;
     return (
       <div>
-        <br />
-        <h4>Edit Vehicle Make:</h4>
-
-        <form onSubmit={(e) => this.onFormSubmit(e)}>
-          <label>
-            Vehicle name:
-            <input
-              name="name"
-              value={vehicleStore.name}
-              onChange={(e) => vehicleStore.onChangeHandler(e)}
-              type="text"
-              placeholder="Name"
-            />
-          </label>
-          <label>
-            Vehicle abrv:
-            <input
-              name="abrv"
-              value={vehicleStore.abrv}
-              onChange={(e) => vehicleStore.onChangeHandler(e)}
-              type="text"
-              placeholder="Abrv"
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        {vehicleStore.loading && <h2>Vehicle is editing...</h2>}
+        <VehicleMakeForm
+          form={
+            new EditVehicleMakeValidation(
+              this.props.rootStore,
+              this.props.history,
+              this.props.match.params.id
+            )
+          }
+        />
+        {this.props.rootStore.editVehicleMakeViewStore.loading && (
+          <h2>Vehicle is editing...</h2>
+        )}
       </div>
     );
   }

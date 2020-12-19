@@ -10,7 +10,6 @@ class EditVehicleModelViewStore {
   @observable vehicleError = null;
   @observable loadingVehicles = false;
 
-  @observable vehicle = { VehicleMakeId: null, Name: "", Abbreviation: "" };
   @observable vehicleModel = {
     name: "",
     abrv: "",
@@ -42,15 +41,15 @@ class EditVehicleModelViewStore {
     }
   }
 
-  @action async editVehicleModel(id, history) {
+  @action async editVehicleModel(formValues, history, id) {
     try {
       this.loading = true;
-      const vehicle = {
-        VehicleMakeId: this.vehicle.VehicleMakeId,
-        Name: this.vehicleModel.name,
-        Abbreviation: this.vehicleModel.abrv,
-      };
-      const results = await vehicleModelService.editVehicleModel(id, vehicle);
+      const results = await vehicleModelService.editVehicleModel(id, {
+        VehicleMakeId: formValues.vehiclemakeid,
+        Name: formValues.name,
+        Abbreviation: formValues.abrv,
+      });
+
       runInAction(() => {
         this.vehicleModel = results.data;
         this.isVehicleUpdated = true;
